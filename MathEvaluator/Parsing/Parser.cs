@@ -25,25 +25,8 @@ namespace MathEvaluator.Parsing
             IArithExpression resultExpr = null;
             //while next && end(next).not()
             while (current.IsNotNull())
-            {
-                /*if (endOfExpression(current))
-                {
-                    if (moveToPrevAtEnd)
-                    {
-                        tokens.MovePrev();
-                    }
-                    break;
-                }*/
+            {                
                 resultExpr = ParseToken(current, resultExpr, tokens);
-
-                /*if (tokens.Current().IsNotNull() && endOfExpression(tokens.Current()))
-                {
-                    if (moveToPrevAtEnd)
-                    {
-                        tokens.MovePrev();
-                    }
-                    break;
-                }*/
 
                 current = tokens.Next();
                 if (current.IsNotNull() && endOfExpression(current))

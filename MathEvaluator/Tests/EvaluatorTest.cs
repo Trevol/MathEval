@@ -26,23 +26,24 @@ namespace MathEvaluator.Tests
         [Test]
         public void BinarySubtractionTest()
         {
-            var expression = "2-3";
-            var expected = 2 - 3;
-            TestExpressionEvaluation(expression, expected);
+            TestExpressionEvaluation("2-3", 2 - 3);
         }
         [Test]
         public void MultipleAdditiveOperatorsTest()
         {
-            var expression = "-2-3+5.5+6.97";
-            var expected = -2 - 3 + 5.5 + 6.97;
-            TestExpressionEvaluation(expression, expected);
+            TestExpressionEvaluation("--6.97", - -6.97);
+            TestExpressionEvaluation("++6.97", + +6.97);
+            TestExpressionEvaluation("-+6.97", -+6.97);
+            TestExpressionEvaluation("+-6.97", +-6.97);
+            TestExpressionEvaluation("-5.5+ -6.97", -5.5 + -6.97);
+            TestExpressionEvaluation("-5.5 - -6.97", -5.5 - -6.97);
+            TestExpressionEvaluation("-5.5 - -6.97 - +4.5", -5.5 - -6.97 - +4.5);
+            TestExpressionEvaluation("-2-3+5.5+6.97", -2 - 3 + 5.5 + 6.97);
         }
         [Test]
         public void UnaryAdditionTest()
         {
-            var expression = "+2";
-            var expected = +2;
-            TestExpressionEvaluation(expression, expected);
+            TestExpressionEvaluation("+2", +2);
         }
         [Test]
         public void UnarySubtractionTest()
@@ -67,6 +68,17 @@ namespace MathEvaluator.Tests
         }
 
         [Test]
+        public void IncorrectMultiplicativeOperatorTest()
+        {
+            Action(() => TestExpressionEvaluation("/6", 0)).ShouldThrowExactly<ParsingException>();
+            Action(() => TestExpressionEvaluation("*6", 0)).ShouldThrowExactly<ParsingException>();
+            Action(() => TestExpressionEvaluation("6/", 0)).ShouldThrowExactly<ParsingException>();
+            Action(() => TestExpressionEvaluation("6*", 0)).ShouldThrowExactly<ParsingException>();
+            Action(() => TestExpressionEvaluation("2-/6", 0)).ShouldThrowExactly<ParsingException>();
+            Action(() => TestExpressionEvaluation("2-6/", 0)).ShouldThrowExactly<ParsingException>();
+        }
+
+        [Test]
         public void ValueExpressionTest()
         {
             TestExpressionEvaluation("3.56", 3.56);
@@ -80,9 +92,7 @@ namespace MathEvaluator.Tests
             TestExpressionEvaluation("2*-6", 2 * -6);
             TestExpressionEvaluation("2*+6", 2 * +6);
             TestExpressionEvaluation("2/-6", 2.0 / -6);
-            TestExpressionEvaluation("2/+6", 2.0 / +6);
-
-            Action(() => TestExpressionEvaluation("2-/6", 2.0 / -6)).ShouldThrowExactly<ParsingException>();
+            TestExpressionEvaluation("2/+6", 2.0 / +6);            
         }
 
         private static Action Action(Action a) => a;
@@ -94,6 +104,7 @@ namespace MathEvaluator.Tests
             TestExpressionEvaluation("4.5+6.7*9.8", 4.5 + 6.7 * 9.8);
             TestExpressionEvaluation("4.5-6.7*9.8", 4.5 - 6.7 * 9.8);
             TestExpressionEvaluation("4.5/7.1-6.7*9.8", 4.5 / 7.1 - 6.7 * 9.8);
+            TestExpressionEvaluation("4.5/-7.1-6.7*9.8", 4.5 / -7.1 - 6.7 * 9.8);
         }
 
         [Test]

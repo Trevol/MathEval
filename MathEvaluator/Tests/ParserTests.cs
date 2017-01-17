@@ -42,11 +42,11 @@ namespace MathEvaluator.Tests
         }
 
         [Test]
-        public void DoTest()
+        public void OperatorsMixTest()
         {
-            new Parser().Parse("2*-6").Output();
-            var expression = new Parser().Parse("2.56*6-10.56");
-            expression.Output();
+            new Parser().Parse("2*-6").ToString().Should().Be("mult(2, sub(6))");
+            new Parser().Parse("2.56*6-10.56").ToString().Should().Be("sub(mult(2.56, 6), 10.56)");
+            new Parser().Parse("2.56*-6-10.56").ToString().Should().Be("sub(mult(2.56, sub(6)), 10.56)");
         }
     }
 }
