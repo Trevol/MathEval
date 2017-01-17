@@ -175,6 +175,9 @@ namespace MathEvaluator.Tests
         public void IncorrectExpressionsTest()
         {
             Action(() => TestExpressionEvaluation("3 4")).ShouldThrowExactly<ParsingException>();
+            Action(() => TestExpressionEvaluation("abc")).ShouldThrowExactly<ParsingException>();
+            Action(() => TestExpressionEvaluation("3^4")).ShouldThrowExactly<ParsingException>();
+            Action(() => TestExpressionEvaluation(";")).ShouldThrowExactly<ParsingException>();
         }
 
         [Test]
