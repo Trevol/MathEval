@@ -56,7 +56,7 @@
     <Compile Include="Expressions\MultiplicativeOperatorExpression.cs" />
     <Compile Include="Expressions\ValueExpression.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tests\EvaluatorTest.cs" />
+    <Compile Include="Tests\EvaluatorTests.cs" />
     <Compile Include="Tests\ProtoTest.cs" />
     <Compile Include="Parsing\TokenCursor.cs" />
     <Compile Include="Utils\ConsoleExtensions.cs" />

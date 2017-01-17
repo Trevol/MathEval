@@ -8,7 +8,7 @@ using NUnit.Framework;
 namespace MathEvaluator.Tests
 {
     [TestFixture]
-    public class EvaluatorTest
+    public class EvaluatorTests
     {
         [Test]
         public void BinaryAdditionTest()
