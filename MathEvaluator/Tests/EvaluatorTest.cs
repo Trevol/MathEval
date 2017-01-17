@@ -76,30 +76,32 @@ namespace MathEvaluator.Tests
         public void MixAdditiveAndMultilicativeTest()
         {
             TestExpressionEvaluation("2.56*6-10.56", 2.56 * 6 - 10.56);
-            TestExpressionEvaluation("-6*2", -6*2);
+            TestExpressionEvaluation("-6*2", -6 * 2);
             TestExpressionEvaluation("2*-6", 2 * -6);
             TestExpressionEvaluation("2*+6", 2 * +6);
             TestExpressionEvaluation("2/-6", 2.0 / -6);
             TestExpressionEvaluation("2/+6", 2.0 / +6);
 
-            Action a = () => TestExpressionEvaluation("2-/6", 2.0 / -6);
-            a.ShouldThrowExactly<ParserException>();
+            Action(() => TestExpressionEvaluation("2-/6", 2.0 / -6)).ShouldThrowExactly<ParsingException>();
         }
+
+        private static Action Action(Action a) => a;
 
         [Test]
         public void OperatorPrecedenceTest()
         {
-            
+
         }
 
         [Test]
         public void CurrentTest()
         {
             //part of OperatorPrecedenceTest
-            TestExpressionEvaluation("4.5+6.7*9.8", 4.5 + 6.7 * 9.8);
-            TestExpressionEvaluation("4.5-6.7*9.8", 4.5 - 6.7 * 9.8);
+            TestExpressionEvaluation("2+3*4", 2 + 3 * 4);
 
-            TestExpressionEvaluation("4.5/7.1-6.7*9.8", 4.5 - 6.7 * 9.8);
+            /*TestExpressionEvaluation("4.5+6.7*9.8", 4.5 + 6.7 * 9.8);
+            TestExpressionEvaluation("4.5-6.7*9.8", 4.5 - 6.7 * 9.8);
+            TestExpressionEvaluation("4.5/7.1-6.7*9.8", 4.5 - 6.7 * 9.8);*/
         }
 
         [Test]
@@ -107,7 +109,7 @@ namespace MathEvaluator.Tests
         {
             /*var t = 4.6 / 0 * - 1000000;
             t = -4.6 / 0 * 10000;*/
-            
+
             TestExpressionEvaluation("4.67/0", Double.PositiveInfinity);
             TestExpressionEvaluation("-4.67/0", Double.NegativeInfinity);
         }

@@ -20,7 +20,7 @@ namespace MathEvaluator.Tests
             var tokenDesc = new Dictionary<TokenType, string>()
             {
                 {TokenType.Value, @"\d+(\.\d+)?" },
-                {TokenType.Operator, "[+|-|*|/]" }
+                {TokenType.AdditiveOperator, "[+|-|*|/]" }
             };
 
             var pattern = string.Join("|", tokenDesc.Select(p => $"(?<{p.Key}>{p.Value})"));

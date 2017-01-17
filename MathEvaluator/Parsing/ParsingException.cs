@@ -1,6 +1,6 @@
 using System;
 
-namespace MathEvaluator.Tests
+namespace MathEvaluator.Parsing
 {
     internal class ParsingException : Exception
     {

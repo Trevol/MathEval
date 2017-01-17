@@ -5,11 +5,11 @@ namespace MathEvaluator.Expressions
     /// <summary>
     /// + or -. Can be in unary form (without LOperand, +23, -45)
     /// </summary>
-    public class AdditiveOperatorExpression: OperatorExpression
+    public class AdditiveOperatorExpression : OperatorExpression
     {
         public bool IsSubtraction;
 
-        private AdditiveOperatorExpression(IArithExpression lOperand, IArithExpression rOperand, bool isSubtraction): base(lOperand, rOperand)
+        private AdditiveOperatorExpression(IArithExpression lOperand, IArithExpression rOperand, bool isSubtraction) : base(lOperand, rOperand)
         {
             IsSubtraction = isSubtraction;
         }
@@ -35,5 +35,13 @@ namespace MathEvaluator.Expressions
         {
             return new AdditiveOperatorExpression(lOperand, rOperand, true);
         }
+        public override string ToString()
+        {
+            var op = IsSubtraction ? "sub" : "add";
+            return IsUnary ? 
+                $"{op}({ROperand})" : 
+                $"{op}({LOperand}, {ROperand})";
+        }
+
     }
 }

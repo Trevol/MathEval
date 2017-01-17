@@ -3,11 +3,12 @@
     internal enum TokenType
     {
         Value, 
-        Operator, 
+        AdditiveOperator,
+        MultiplicativeOperator,
         OParenthesis,
         CParenthesis,
 
 
-        Unknown
+        Unknown        
     }
 }

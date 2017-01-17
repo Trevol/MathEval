@@ -51,7 +51,8 @@ namespace MathEvaluator.Parsing
             return new Dictionary<TokenType, string>()
             {
                 {TokenType.Value, @"\d+(\.\d+)?" },
-                {TokenType.Operator, @"[+|\-|*|/]" },
+                {TokenType.AdditiveOperator, @"[+|\-]" },
+                {TokenType.MultiplicativeOperator, @"[*|/]" },
                 {TokenType.OParenthesis, @"\(" },
                 {TokenType.CParenthesis, @"\)" }
             };

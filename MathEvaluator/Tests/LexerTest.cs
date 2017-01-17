@@ -31,7 +31,7 @@ namespace MathEvaluator.Tests
             tokens[0].Type.Should().Be(TokenType.Value);
             tokens[0].Value.Should().Be("2");
 
-            tokens[1].Type.Should().Be(TokenType.Operator);
+            tokens[1].Type.Should().Be(TokenType.AdditiveOperator);
             tokens[1].Value.Should().Be("+");
 
             tokens[2].Type.Should().Be(TokenType.Value);
@@ -47,7 +47,7 @@ namespace MathEvaluator.Tests
             tokens[0].Type.Should().Be(TokenType.Value);
             tokens[0].Value.Should().Be("2");
 
-            tokens[1].Type.Should().Be(TokenType.Operator);
+            tokens[1].Type.Should().Be(TokenType.AdditiveOperator);
             tokens[1].Value.Should().Be("-");
 
             tokens[2].Type.Should().Be(TokenType.Value);
@@ -65,7 +65,7 @@ namespace MathEvaluator.Tests
             tokens[0].Type.Should().Be(TokenType.Value);
             tokens[0].Value.Should().Be("2");
 
-            tokens[1].Type.Should().Be(TokenType.Operator);
+            tokens[1].Type.Should().Be(TokenType.AdditiveOperator);
             tokens[1].Value.Should().Be("+");
 
             tokens[2].Type.Should().Be(TokenType.Value);
@@ -79,6 +79,20 @@ namespace MathEvaluator.Tests
             lexer.Invoking(l => l.Tokens()).ShouldThrowExactly<ParsingException>();            
         }
 
+        [Test]
+        public void WhiteSpaceOnlyNumbersTest()
+        {
+            var lexer = new Lexer("2 \t\r 3");
+            var tokens = lexer.Tokens().ToArray();
+
+            tokens.Length.Should().Be(2);
+
+            tokens[0].Type.Should().Be(TokenType.Value);
+            tokens[0].Value.Should().Be("2");
+
+            tokens[1].Type.Should().Be(TokenType.Value);
+            tokens[1].Value.Should().Be("3");
+        }
         
     }
 }

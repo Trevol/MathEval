@@ -8,7 +8,7 @@ namespace MathEvaluator.Expressions
     {
         protected OperatorExpression(IArithExpression lOperand, IArithExpression rOperand)
         {
-            if (rOperand == null) throw new ParserException("ROperand is required");
+            if (rOperand == null) throw new ParsingException("ROperand is required");
             LOperand = lOperand;
             ROperand = rOperand;
         }
@@ -30,7 +30,7 @@ namespace MathEvaluator.Expressions
                 case "/":
                     return MultiplicativeOperatorExpression.Division(lOperand, rOperand);
                 default:
-                    throw new ParserException("Unexpected operator " + op);
+                    throw new ParsingException("Unexpected operator " + op);
             }
         }
     }

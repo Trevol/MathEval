@@ -54,10 +54,11 @@
   <ItemGroup>
     <Compile Include="Expressions\AdditiveOperatorExpression.cs" />
     <Compile Include="Expressions\MultiplicativeOperatorExpression.cs" />
-    <Compile Include="Parsing\ParserException.cs" />
     <Compile Include="Expressions\ValueExpression.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tests\EvaluatorTest.cs" />
+    <Compile Include="Tests\ProtoTest.cs" />
+    <Compile Include="Parsing\TokenCursor.cs" />
     <Compile Include="Utils\ConsoleExtensions.cs" />
     <Compile Include="Expressions\IArithExpression.cs" />
     <Compile Include="Parsing\Lexer.cs" />
@@ -66,7 +67,7 @@
     <Compile Include="Expressions\OperatorExpression.cs" />
     <Compile Include="Parsing\Parser.cs" />
     <Compile Include="Tests\ParserTests.cs" />
-    <Compile Include="Tests\ParsingException.cs" />
+    <Compile Include="Parsing\ParsingException.cs" />
     <Compile Include="Tests\RegExpTests.cs" />
     <Compile Include="Parsing\Token.cs" />
     <Compile Include="Parsing\TokenType.cs" />

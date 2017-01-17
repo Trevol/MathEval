@@ -29,6 +29,11 @@ namespace MathEvaluator.Parsing
             }
         }
 
+        private static IArithExpression ParseExpression(Token start, Func<bool, Token> end)
+        {
+            throw new NotImplementedException();
+        }
+
         private static IArithExpression Parse(Token token, IEnumerator<Token> tokens, IArithExpression prevExpression = null)
         {
             if (token.IsNull())
@@ -39,10 +44,10 @@ namespace MathEvaluator.Parsing
             {
                 case TokenType.Value:
                     return ParseValue(token);                    
-                case TokenType.Operator:
-                    return ParseOperator(token, prevExpression, ParseRightOperand(tokens.Next(), tokens));                    
+                case TokenType.AdditiveOperator:
+                    return ParseOperator(token, tokens, prevExpression);                    
                 default:
-                    throw new ParserException("Unexpected token: " + token);
+                    throw new ParsingException("Unexpected token: " + token);
             }
         }
 
@@ -56,8 +61,10 @@ namespace MathEvaluator.Parsing
             return Parse(token, tokens);
         }
 
-        private static IArithExpression ParseOperator(Token operatorToken, IArithExpression lOperand, IArithExpression rOperand)
+        private static IArithExpression ParseOperator(Token operatorToken, IEnumerator<Token> tokens, IArithExpression lOperand)
         {
+            //throw new NotImplementedException("ParseAdditiveOperator and ParseMultiplicativeOperator or Expression Precedence/Priority");
+            IArithExpression rOperand = ParseRightOperand(tokens.Next(), tokens);
             return OperatorExpression.Create(operatorToken.Value, lOperand, rOperand);
         }
 

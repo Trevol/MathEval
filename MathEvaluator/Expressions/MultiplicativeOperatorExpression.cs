@@ -12,7 +12,7 @@ namespace MathEvaluator.Expressions
 
         private MultiplicativeOperatorExpression(IArithExpression lOperand, IArithExpression rOperand, bool isDivision) : base(lOperand, rOperand)
         {            
-            if (LOperand == null) throw new ParserException("LOperand is required");
+            if (LOperand == null) throw new ParsingException("LOperand is required");
             IsDivision = isDivision;
         }
 
@@ -33,6 +33,12 @@ namespace MathEvaluator.Expressions
         public static MultiplicativeOperatorExpression Division(IArithExpression lOperand, IArithExpression rOperand)
         {
             return new MultiplicativeOperatorExpression(lOperand, rOperand, true);
+        }
+
+        public override string ToString()
+        {
+            var op = IsDivision?"div" : "mult";
+            return $"{op}({LOperand}, {ROperand})";
         }
     }
 }
