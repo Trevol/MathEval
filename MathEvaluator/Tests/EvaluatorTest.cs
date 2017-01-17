@@ -70,12 +70,12 @@ namespace MathEvaluator.Tests
         [Test]
         public void IncorrectMultiplicativeOperatorTest()
         {
-            Action(() => TestExpressionEvaluation("/6", 0)).ShouldThrowExactly<ParsingException>();
-            Action(() => TestExpressionEvaluation("*6", 0)).ShouldThrowExactly<ParsingException>();
-            Action(() => TestExpressionEvaluation("6/", 0)).ShouldThrowExactly<ParsingException>();
-            Action(() => TestExpressionEvaluation("6*", 0)).ShouldThrowExactly<ParsingException>();
-            Action(() => TestExpressionEvaluation("2-/6", 0)).ShouldThrowExactly<ParsingException>();
-            Action(() => TestExpressionEvaluation("2-6/", 0)).ShouldThrowExactly<ParsingException>();
+            Action(() => TestExpressionEvaluation("/6")).ShouldThrowExactly<ParsingException>();
+            Action(() => TestExpressionEvaluation("*6")).ShouldThrowExactly<ParsingException>();
+            Action(() => TestExpressionEvaluation("6/")).ShouldThrowExactly<ParsingException>();
+            Action(() => TestExpressionEvaluation("6*")).ShouldThrowExactly<ParsingException>();
+            Action(() => TestExpressionEvaluation("2-/6")).ShouldThrowExactly<ParsingException>();
+            Action(() => TestExpressionEvaluation("2-6/")).ShouldThrowExactly<ParsingException>();
         }
 
         [Test]
@@ -92,7 +92,24 @@ namespace MathEvaluator.Tests
             TestExpressionEvaluation("2*-6", 2 * -6);
             TestExpressionEvaluation("2*+6", 2 * +6);
             TestExpressionEvaluation("2/-6", 2.0 / -6);
-            TestExpressionEvaluation("2/+6", 2.0 / +6);            
+            TestExpressionEvaluation("2/+6", 2.0 / +6);
+        }
+
+        [Test]
+        public void MixGroupsTest()
+        {
+            TestExpressionEvaluation(
+                "(2 * 9) / (8) * (4 + 1)",
+                (2 * 9.0) / (8) * (4.0 + 1.0));
+
+            TestExpressionEvaluation(
+                "1 + (2 * 9.8) / (-2 - 6) * (4.5 / 9.8 + 1.2) + (-34.57 * (3.5 - 3.7))",
+                1 + (2 * 9.8) / (-2 - 6) * (4.5 / 9.8 + 1.2) + (-34.57 * (3.5 - 3.7)));
+
+            TestExpressionEvaluation(
+                "(1 + (2 * 9.8) / (-2 - 6) * (4.5 / 9.8 + 1.2) + (-34.57 * (3.5 - 3.7)))/(4.7 + 2.4*777/5.6 + 7)",
+                (1 + (2 * 9.8) / (-2 - 6) * (4.5 / 9.8 + 1.2) + (-34.57 * (3.5 - 3.7))) / (4.7 + 2.4 * 777 / 5.6 + 7)
+                );
         }
 
         private static Action Action(Action a) => a;
@@ -108,11 +125,56 @@ namespace MathEvaluator.Tests
         }
 
         [Test]
+        public void SimpleGroupTest()
+        {
+            TestExpressionEvaluation("(3)", (3));
+            TestExpressionEvaluation("(2+3)", (2 + 3));
+            TestExpressionEvaluation("(+3)", (+3));
+            TestExpressionEvaluation("(-3)", (-3));
+            TestExpressionEvaluation("((((-3))))", ((((-3)))));
+        }
+        [Test]
+        public void EmptyGroupTest()
+        {
+            Action(() => TestExpressionEvaluation("()")).ShouldThrowExactly<ParsingException>()
+                .And
+                .Message.Should().Be("Empty expression group");
+        }
+        [Test]
+        public void EmptyExpressionTest()
+        {
+            Action(() => TestExpressionEvaluation("")).ShouldThrowExactly<ParsingException>()
+                .And
+                .Message.Should().Be("Empty expression");
+        }
+
+
+        [Test]
+        public void ParentesisMismatchTest()
+        {
+            Action(() => TestExpressionEvaluation("(")).ShouldThrowExactly<ParsingException>()
+                .And
+                .Message.Should().Be("Parentesis mismatch");
+
+            Action(() => TestExpressionEvaluation("(2+3")).ShouldThrowExactly<ParsingException>()
+                .And
+                .Message.Should().Be("Parentesis mismatch");
+
+            Action(() => TestExpressionEvaluation("(2+3))")).ShouldThrowExactly<ParsingException>()
+                .And
+                .Message.Should().Be("Parentesis mismatch");
+        }
+
+        [Test]
         public void CurrentTest()
         {
-            //part of MixAdditiveAndMultilicativeTest
-            TestExpressionEvaluation("2*-6", 2 * -6);
-            TestExpressionEvaluation("2.0/-6", 2.0 / -6);
+            //current work            
+        }
+
+        [Test]
+        public void IncorrectExpressionsTest()
+        {
+            Action(() => TestExpressionEvaluation("3 4")).ShouldThrowExactly<ParsingException>();
         }
 
         [Test]
@@ -126,10 +188,10 @@ namespace MathEvaluator.Tests
         }
 
         [Test]
-        public void ComplexExpressionTest()
+        public void DesiredFeaturesTest()
         {
-            var expression = "1 + (2 * 9.8) / (-2 - 6) * Sqrt(4.5 / 9.8 * 1.2)";
-            var expected = 1 + (2 * 9.8) / (-2 - 6) * Math.Sqrt(4.5 / 9.8 * 1.2);
+            var expression = "1 + (2 * 9.8) / (-2 - 6) * Sqrt(4.5 / 9.8 * 1.2) + Math.Pow(-34.57, 3.5)";
+            var expected = 1 + (2 * 9.8) / (-2 - 6) * Math.Sqrt(4.5 / 9.8 * 1.2 + Math.Pow(-34.57, 3.5));
 
             TestExpressionEvaluation(expression, expected);
         }
@@ -161,12 +223,17 @@ namespace MathEvaluator.Tests
              div by 0:
              4.5/0
              4.5/(3.4-3.4)
+             Sqrt(-2) NaN
              */
         }
 
         private void TestExpressionEvaluation(string expressionText, double expected)
         {
             Evaluator.Evaluate(expressionText).Should().Be(expected);
+        }
+        private void TestExpressionEvaluation(string expressionText)
+        {
+            Evaluator.Evaluate(expressionText);
         }
     }
 }

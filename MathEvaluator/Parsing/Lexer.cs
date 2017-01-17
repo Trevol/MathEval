@@ -26,7 +26,8 @@ namespace MathEvaluator.Parsing
         {
             if (_expressionText.IsNullOrEmpty())
             {
-                throw new ParsingException("Expression is null or empty");
+                return new Token[0];
+                //throw new ParsingException("Expression is null or empty");
             }
             return TokenMatcher.Matches(_expressionText).Cast<Match>().Select(DetectToken);
         }

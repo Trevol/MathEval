@@ -24,7 +24,7 @@ namespace MathEvaluator.Parsing
             return _tokens[_position];
         }
 
-        private bool EndOfCursor()
+        public bool EndOfCursor()
         {
             return _position == _tokens.Length;
         }
