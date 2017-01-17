@@ -90,18 +90,18 @@ namespace MathEvaluator.Tests
         [Test]
         public void OperatorPrecedenceTest()
         {
-
+            TestExpressionEvaluation("2+3*4", 2 + 3 * 4);
+            TestExpressionEvaluation("4.5+6.7*9.8", 4.5 + 6.7 * 9.8);
+            TestExpressionEvaluation("4.5-6.7*9.8", 4.5 - 6.7 * 9.8);
+            TestExpressionEvaluation("4.5/7.1-6.7*9.8", 4.5 / 7.1 - 6.7 * 9.8);
         }
 
         [Test]
         public void CurrentTest()
         {
-            //part of OperatorPrecedenceTest
-            TestExpressionEvaluation("2+3*4", 2 + 3 * 4);
-
-            /*TestExpressionEvaluation("4.5+6.7*9.8", 4.5 + 6.7 * 9.8);
-            TestExpressionEvaluation("4.5-6.7*9.8", 4.5 - 6.7 * 9.8);
-            TestExpressionEvaluation("4.5/7.1-6.7*9.8", 4.5 - 6.7 * 9.8);*/
+            //part of MixAdditiveAndMultilicativeTest
+            TestExpressionEvaluation("2*-6", 2 * -6);
+            TestExpressionEvaluation("2.0/-6", 2.0 / -6);
         }
 
         [Test]

@@ -40,5 +40,13 @@ namespace MathEvaluator.Tests
             expression.To<AdditiveOperatorExpression>().ROperand.Should().BeOfType<ValueExpression>();
             expression.To<AdditiveOperatorExpression>().ROperand.To<ValueExpression>().Value.Should().Be(3);
         }
+
+        [Test]
+        public void DoTest()
+        {
+            new Parser().Parse("2*-6").Output();
+            var expression = new Parser().Parse("2.56*6-10.56");
+            expression.Output();
+        }
     }
 }
