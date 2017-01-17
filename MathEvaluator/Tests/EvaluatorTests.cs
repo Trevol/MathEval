@@ -181,14 +181,15 @@ namespace MathEvaluator.Tests
         }
 
         [Test]
-        public void SimpleDivisionByZeroTest()
+        public void DivisionByZeroTest()
         {
-            /*var t = 4.6 / 0 * - 1000000;
-            t = -4.6 / 0 * 10000;*/
-
             TestExpressionEvaluation("4.67/0", Double.PositiveInfinity);
             TestExpressionEvaluation("-4.67/0", Double.NegativeInfinity);
+
+            TestExpressionEvaluation("4.67/(4.567-4.567)", 4.67 / (4.567 - 4.567));
+            TestExpressionEvaluation("-4.67/(4.4*0)", -4.67 / (4.4 * 0));
         }
+
 
         [Test]
         public void DesiredFeaturesTest()
